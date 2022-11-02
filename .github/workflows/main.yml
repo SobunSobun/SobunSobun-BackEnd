@@ -52,6 +52,7 @@ jobs:
           aws deploy create-deployment
           --application-name sobunsobun-app
           --deployment-group-name codedeploy-deployment-group
+          --deployment-config-name CodeDeployDefault.AllAtOnce
           --file-exists-behavior OVERWRITE
-          --s3-location bucket=sobunsobun-bucket,bundleType=zip,key=$GITHUB_SHA.zip
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$GITHUB_SHA.zip
           --region ap-northeast-2
