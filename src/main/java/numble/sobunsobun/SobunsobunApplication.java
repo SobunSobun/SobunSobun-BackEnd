@@ -8,6 +8,7 @@ public class SobunsobunApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SobunsobunApplication.class, args);
+		System.out.println("hello world!");
 	}
 
 }
