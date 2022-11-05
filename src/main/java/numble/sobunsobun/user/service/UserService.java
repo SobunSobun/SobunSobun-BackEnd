@@ -23,4 +23,9 @@ public class UserService {
         Optional<User> user = userRepository.findByNicknameAndStatus(nickname, 1);
         return user.isEmpty();
     }
+
+    public User getUserEntity(String email){
+        Optional<User> user = userRepository.findByEmailAndStatus(email, 1);
+        return user.orElse(null);
+    }
 }
