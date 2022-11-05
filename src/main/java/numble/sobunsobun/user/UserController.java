@@ -6,6 +6,7 @@ import numble.sobunsobun.user.dto.JoinDto;
 import numble.sobunsobun.user.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /**
      * 회원가입 API
@@ -30,7 +32,7 @@ public class UserController {
     public ResponseEntity<String> join(JoinDto joinDto){
         User user = new User();
         user.setEmail(joinDto.getEmail());
-        user.setPassword(joinDto.getPassword());    // Spring Security 주입받아서 비밀번호 encrypt 꼭 해줘야함!!!
+        user.setPassword(bCryptPasswordEncoder.encode(joinDto.getPassword()));
         user.setNickname(joinDto.getNickname());
         user.setLocation(joinDto.getLocation());
 
