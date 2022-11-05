@@ -28,7 +28,7 @@ public class User{
     private String location;
 
     @Column(name = "profile_url")
-    private String profile_url;
+    private Integer profile_url = 1;
 
     @Column(name = "status")
     private Integer status = 1;
