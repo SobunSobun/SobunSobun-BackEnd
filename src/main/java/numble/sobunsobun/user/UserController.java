@@ -23,6 +23,9 @@ public class UserController {
 
     private final UserService userService;
 
+    /**
+     * 회원가입 API
+     * */
     @PostMapping("/join")
     public ResponseEntity<String> join(JoinDto joinDto){
         User user = new User();
@@ -33,5 +36,18 @@ public class UserController {
 
         userService.joinUser(user);
         return new ResponseEntity<>("회원가입 완료", HttpStatus.OK);
+    }
+
+    /**
+     * 닉네임 중복 확인 API
+     * */
+    @PostMapping("/join/nicknameDuplicateCheck")
+    public ResponseEntity<String> nicknameDuplicate(String nickname){
+        if(userService.isNicknameAvailable(nickname)){
+            return new ResponseEntity<>("가입 가능한 닉네임", HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("중복 닉네임", HttpStatus.OK);
+        }
     }
 }
