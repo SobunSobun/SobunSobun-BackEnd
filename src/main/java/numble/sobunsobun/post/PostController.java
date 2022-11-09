@@ -10,9 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -25,6 +23,10 @@ public class PostController {
     private final PostService postService;
     private final UserService userService;
 
+
+    /**
+     * 게시글 등록 API
+     * */
     @PostMapping("/register")
     public ResponseEntity<String> register(RegisterPostDto registerPostDto){
 
@@ -47,5 +49,26 @@ public class PostController {
         postService.savePost(post);
 
         return new ResponseEntity<>("게시글 등록 완료", HttpStatus.OK);
+    }
+
+    /**
+     * 게시글 삭제 API
+     * */
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<String> delete(@PathVariable Long postId){
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+
+        UserDetails loginUser = userService.loadUserByUsername(username);
+        User user = (User) loginUser;
+
+        Post post = postService.getPostEntity(postId);
+        if(post.getUserId().equals(user.getUserId())){
+            post.setStatus(0);
+            return new ResponseEntity<>("게시글 삭제 완료", HttpStatus.OK);
+        } else{
+            return new ResponseEntity<>("작성자만 삭제 가능", HttpStatus.OK);
+        }
     }
 }
