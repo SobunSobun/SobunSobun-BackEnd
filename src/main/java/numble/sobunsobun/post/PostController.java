@@ -1,2 +1,4 @@
-package numble.sobunsobun.post;public class PostController {
+package numble.sobunsobun.post;
+
+public class PostController {
 }
