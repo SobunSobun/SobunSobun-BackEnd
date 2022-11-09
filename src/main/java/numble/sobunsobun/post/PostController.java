@@ -66,6 +66,7 @@ public class PostController {
         Post post = postService.getPostEntity(postId);
         if(post.getUserId().equals(user.getUserId())){
             post.setStatus(0);
+            postService.savePost(post);
             return new ResponseEntity<>("게시글 삭제 완료", HttpStatus.OK);
         } else{
             return new ResponseEntity<>("작성자만 삭제 가능", HttpStatus.OK);
