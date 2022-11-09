@@ -61,7 +61,6 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<String> login(LoginDto loginDto){
 
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         if(userService.getUserEntity(loginDto.getEmail()) == null){
             return new ResponseEntity<>("아이디 틀림", HttpStatus.OK);
         }
