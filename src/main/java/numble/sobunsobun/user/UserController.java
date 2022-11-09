@@ -5,6 +5,7 @@ import numble.sobunsobun.user.domain.User;
 import numble.sobunsobun.user.dto.JoinDto;
 import numble.sobunsobun.user.dto.LoginDto;
 import numble.sobunsobun.user.service.UserService;
+import numble.sobunsobun.utils.JwtTokenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final JwtTokenService jwtTokenService;
 
     /**
      * 회원가입 API
@@ -66,8 +67,8 @@ public class UserController {
         }
         else{
             User user = userService.getUserEntity(loginDto.getEmail());
-            if(bCryptPasswordEncoder.matches(loginDto.getPassword(), user.getPassword())){
-                return new ResponseEntity<>("로그인 완료 (추후 토큰값으로 교체 예정)", HttpStatus.OK);
+            if(loginDto.getPassword().equals(user.getPassword())){
+                return new ResponseEntity<>(jwtTokenService.createJWT(loginDto.getEmail()), HttpStatus.OK);
             }
             else{
                 return new ResponseEntity<>("비밀번호 틀림", HttpStatus.OK);
