@@ -33,7 +33,7 @@ public class UserController {
     public ResponseEntity<String> join(JoinDto joinDto){
         User user = new User();
         user.setEmail(joinDto.getEmail());
-        user.setPassword(bCryptPasswordEncoder.encode(joinDto.getPassword()));
+        user.setPassword(joinDto.getPassword());
         user.setNickname(joinDto.getNickname());
         user.setLocation(joinDto.getLocation());
 
