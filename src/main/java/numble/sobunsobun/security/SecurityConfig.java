@@ -5,6 +5,7 @@ import numble.sobunsobun.utils.JwtAuthenticationFilter;
 import numble.sobunsobun.utils.JwtTokenService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -47,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors();
         http.httpBasic().disable()
                 .authorizeRequests()// 요청에 대한 사용권한 체크
+                .mvcMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers(AUTHENTICATED_URL_ARRAY).authenticated()
                 .antMatchers(PERMIT_URL_ARRAY).permitAll()
                 .anyRequest().denyAll()
