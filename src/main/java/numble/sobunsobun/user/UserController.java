@@ -26,6 +26,7 @@ public class UserController {
 
     private final UserService userService;
     private final JwtTokenService jwtTokenService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /**
      * 회원가입 API
@@ -34,9 +35,11 @@ public class UserController {
     public ResponseEntity<String> join(JoinDto joinDto){
         User user = new User();
         user.setEmail(joinDto.getEmail());
-        user.setPassword(joinDto.getPassword());
+        user.setPassword(bCryptPasswordEncoder.encode(joinDto.getPassword()));
         user.setNickname(joinDto.getNickname());
         user.setLocation(joinDto.getLocation());
+        user.setLat(joinDto.getLat());
+        user.setLon(joinDto.getLon());
 
         userService.joinUser(user);
         return new ResponseEntity<>("회원가입 완료", HttpStatus.OK);
@@ -66,7 +69,7 @@ public class UserController {
         }
         else{
             User user = userService.getUserEntity(loginDto.getEmail());
-            if(loginDto.getPassword().equals(user.getPassword())){
+            if(bCryptPasswordEncoder.matches(loginDto.getPassword(), user.getPassword())){
                 return new ResponseEntity<>(jwtTokenService.createJWT(loginDto.getEmail()), HttpStatus.OK);
             }
             else{
