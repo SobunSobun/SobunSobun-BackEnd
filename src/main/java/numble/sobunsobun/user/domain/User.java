@@ -36,6 +36,12 @@ public class User implements UserDetails {
     @Column(name = "status")
     private Integer status = 1;
 
+    @Column(name = "lat")
+    private String lat; // 위도
+
+    @Column(name = "lon")
+    private String lon; // 경도
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
