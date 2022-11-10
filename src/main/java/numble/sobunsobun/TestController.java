@@ -15,6 +15,6 @@ public class TestController {
         // + 로그인 정보 불러오는 코드 추가
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
-        return "API Accepted";
+        return "API Accepted!";
     }
 }
