@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 1. 회원가입 API
- * 2. 닉네임 중복 확인 API
- * 3. 로그인 API
+ * 2. 이메일 중복 확인 API
+ * 3. 닉네임 중복 확인 API
+ * 4. 로그인 API
  */
 
 @RestController
@@ -43,6 +44,19 @@ public class UserController {
 
         userService.joinUser(user);
         return new ResponseEntity<>("회원가입 완료", HttpStatus.OK);
+    }
+
+    /**
+     * 이메일 중복 확인 API
+     * */
+    @PostMapping("/join/emailDuplicateCheck")
+    public ResponseEntity<String> emailDuplicate(String email){
+        if(userService.getUserEntity(email) == null){
+            return new ResponseEntity<>("가입 가능한 이메일", HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>("중복 이메일", HttpStatus.OK);
+        }
     }
 
     /**
