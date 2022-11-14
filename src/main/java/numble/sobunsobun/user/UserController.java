@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.net.ssl.HttpsURLConnection;
-
 /**
  * 1. 회원가입 API
  * 2. 이메일 중복 확인 API
