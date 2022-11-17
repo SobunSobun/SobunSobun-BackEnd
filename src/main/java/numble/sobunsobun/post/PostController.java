@@ -21,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 @RestController
 @RequestMapping("/post")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class PostController {
 
     private final PostService postService;
