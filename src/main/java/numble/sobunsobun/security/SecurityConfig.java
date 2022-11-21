@@ -33,7 +33,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] AUTHENTICATED_URL_ARRAY={
             "/test", "/test/**",
-            "/post", "/post/**"
+            "/post", "/post/**",
+            "/myPage", "/myPage/**"
     };
 
     @Bean
