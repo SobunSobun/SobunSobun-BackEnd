@@ -9,4 +9,6 @@ public class JoinDto {
     private String password;
     private String nickname;
     private String location;
+    private String lat;
+    private String lon;
 }

@@ -6,6 +6,8 @@ import numble.sobunsobun.post.repository.PostRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -16,4 +18,10 @@ public class PostService {
     public void savePost(Post post){
         postRepository.save(post);
     }
+
+    public Post getPostEntity(Long postId){
+        Optional<Post> post = postRepository.findById(postId);
+        return post.orElse(null);
+    }
+
 }
