@@ -197,7 +197,6 @@ public class PostController {
         Page<Post> posts;
 
         if (category.equals("ALL")){
-            System.out.println("asdf");
             posts = postRepository.findAllByLocationAndStatusOrderByCreatedTimeDesc(user.getLocation(), 1, pageable);
         }
         else{
@@ -217,6 +216,7 @@ public class PostController {
             allPostResponseDto.setMarket(post.getMarket());
             allPostResponseDto.setMeetingTime(post.getMeetingTime());
             allPostResponseDto.setLast(isLast);
+            allPostResponseDto.setCategory(post.getCategory());
             allPostResponseDtoArrayList.add(allPostResponseDto);
             allPostResponseDto = new AllPostResponseDto();
         }

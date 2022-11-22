@@ -13,6 +13,7 @@ public class AllPostResponseDto {
     private Integer recruitNumber;
     private String meetingTime;
     private String market;
+    private String category;
     private LocalDateTime createdAt;
     private boolean isLast;
 }
