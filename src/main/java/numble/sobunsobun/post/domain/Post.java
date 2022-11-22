@@ -55,4 +55,6 @@ public class Post {
     @Column(name = "status")
     private Integer status = 1;
 
+    @Column(name = "location")
+    private String location;
 }
