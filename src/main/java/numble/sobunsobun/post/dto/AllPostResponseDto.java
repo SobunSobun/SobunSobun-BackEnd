@@ -11,6 +11,7 @@ public class AllPostResponseDto {
     private String nickname;
     private String title;
     private Integer recruitNumber;
+    private Integer applyNumber;
     private String meetingTime;
     private String market;
     private String category;

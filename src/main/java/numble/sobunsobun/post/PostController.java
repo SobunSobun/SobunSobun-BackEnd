@@ -231,6 +231,7 @@ public class PostController {
             allPostResponseDto.setMeetingTime(post.getMeetingTime());
             allPostResponseDto.setLast(isLast);
             allPostResponseDto.setCategory(post.getCategory());
+            allPostResponseDto.setApplyNumber(post.getApplyNumber());
             allPostResponseDtoArrayList.add(allPostResponseDto);
             allPostResponseDto = new AllPostResponseDto();
         }
