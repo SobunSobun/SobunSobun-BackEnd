@@ -1,6 +1,8 @@
 package numble.sobunsobun.post;
 
 import lombok.RequiredArgsConstructor;
+import numble.sobunsobun.like.domain.Like;
+import numble.sobunsobun.like.service.LikeService;
 import numble.sobunsobun.post.domain.Post;
 import numble.sobunsobun.post.dto.AllPostResponseDto;
 import numble.sobunsobun.post.dto.DetailPostDto;
@@ -32,6 +34,7 @@ public class PostController {
     private final PostService postService;
     private final UserService userService;
     private final PostRepository postRepository;
+    private final LikeService likeService;
 
 
     /**
@@ -221,5 +224,24 @@ public class PostController {
             allPostResponseDto = new AllPostResponseDto();
         }
         return allPostResponseDtoArrayList;
+    }
+
+    /**
+     * 게시글 좋아요, 취소
+     * */
+    @PostMapping("/{postId}/{userId}/like")
+    public ResponseEntity<String> likePost(@PathVariable Long postId, @PathVariable Long userId){
+        Like likeEntity = likeService.getLikeEntity(postId, userId);
+        if(likeEntity == null){
+            Like like = new Like();
+            like.setPostId(postId);
+            like.setUserId(userId);
+            likeService.saveLikeEntity(like);
+            return new ResponseEntity<>("좋아요 완료", HttpStatus.OK);
+        }
+        else{
+            likeService.deleteLikeEntity(likeEntity);
+            return new ResponseEntity<>("좋아요 취소", HttpStatus.OK);
+        }
     }
 }
