@@ -80,15 +80,15 @@ public class UserController {
     public ResponseEntity<String> login(LoginDto loginDto){
 
         if(userService.getUserEntity(loginDto.getEmail()) == null){
-            return new ResponseEntity<>("아이디 틀림", HttpStatus.OK);
+            return new ResponseEntity<>("아이디 틀림", HttpStatus.NOT_FOUND);
         }
         else{
             User user = userService.getUserEntity(loginDto.getEmail());
             if(bCryptPasswordEncoder.matches(loginDto.getPassword(), user.getPassword())){
-                return new ResponseEntity<>(jwtTokenService.createJWT(loginDto.getEmail()), HttpStatus.OK);
+                return new ResponseEntity<>(jwtTokenService.createJWT(loginDto.getEmail()), HttpStatus.CREATED);
             }
             else{
-                return new ResponseEntity<>("비밀번호 틀림", HttpStatus.OK);
+                return new ResponseEntity<>("비밀번호 틀림", HttpStatus.UNAUTHORIZED);
             }
         }
     }
