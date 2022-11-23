@@ -57,4 +57,7 @@ public class Post {
 
     @Column(name = "location")
     private String location;
+
+    @Column(name = "market_address")
+    private String marketAddress;
 }
