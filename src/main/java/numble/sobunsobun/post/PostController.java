@@ -1,6 +1,8 @@
 package numble.sobunsobun.post;
 
 import lombok.RequiredArgsConstructor;
+import numble.sobunsobun.apply.domain.Apply;
+import numble.sobunsobun.apply.service.ApplyService;
 import numble.sobunsobun.like.domain.Like;
 import numble.sobunsobun.like.service.LikeService;
 import numble.sobunsobun.post.domain.Post;
@@ -35,6 +37,7 @@ public class PostController {
     private final UserService userService;
     private final PostRepository postRepository;
     private final LikeService likeService;
+    private final ApplyService applyService;
 
 
     /**
@@ -258,10 +261,37 @@ public class PostController {
         }
         else{
             likeService.deleteLikeEntity(likeEntity);
-            likeCount+=1;
+            likeCount-=1;
             postEntity.setLikeCount(likeCount);
             postService.savePost(postEntity);
             return new ResponseEntity<>("좋아요 취소", HttpStatus.OK);
+        }
+    }
+
+    /**
+     * 게시글 참여, 참여 취소
+     * */
+    @PostMapping("/{postId}/{userId}/apply")
+    public ResponseEntity<String> applyPost(@PathVariable Long postId, @PathVariable Long userId){
+        Apply applyEntity = applyService.getApplyEntity(postId, userId);
+        Post postEntity = postService.getPostEntity(postId);
+        Integer applyNumber = postEntity.getApplyNumber();
+        if(applyEntity == null){
+            Apply apply = new Apply();
+            apply.setPostId(postId);
+            apply.setUserId(userId);
+            applyNumber+=1;
+            postEntity.setApplyNumber(applyNumber);
+            applyService.saveApplyEntity(apply);
+            postService.savePost(postEntity);
+            return new ResponseEntity<>("참여 완료", HttpStatus.OK);
+        }
+        else{
+            applyService.deleteApplyEntity(applyEntity);
+            applyNumber-=1;
+            postEntity.setApplyNumber(applyNumber);
+            postService.savePost(postEntity);
+            return new ResponseEntity<>("참여 취소", HttpStatus.OK);
         }
     }
 }
