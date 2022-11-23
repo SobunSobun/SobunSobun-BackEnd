@@ -85,7 +85,6 @@ public class UserController {
         else{
             User user = userService.getUserEntity(loginDto.getEmail());
             if(bCryptPasswordEncoder.matches(loginDto.getPassword(), user.getPassword())){
-                System.out.println(jwtTokenService.createJWT(loginDto.getEmail()));
                 return new ResponseEntity<>(jwtTokenService.createJWT(loginDto.getEmail()), HttpStatus.OK);
             }
             else{

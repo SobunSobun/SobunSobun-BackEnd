@@ -2,12 +2,16 @@ package numble.sobunsobun.post;
 
 import lombok.RequiredArgsConstructor;
 import numble.sobunsobun.post.domain.Post;
+import numble.sobunsobun.post.dto.AllPostResponseDto;
 import numble.sobunsobun.post.dto.DetailPostDto;
 import numble.sobunsobun.post.dto.ModifyPostDto;
 import numble.sobunsobun.post.dto.RegisterPostDto;
+import numble.sobunsobun.post.repository.PostRepository;
 import numble.sobunsobun.post.service.PostService;
 import numble.sobunsobun.user.domain.User;
 import numble.sobunsobun.user.service.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +21,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/post")
@@ -25,6 +31,7 @@ public class PostController {
 
     private final PostService postService;
     private final UserService userService;
+    private final PostRepository postRepository;
 
 
     /**
@@ -48,6 +55,7 @@ public class PostController {
         post.setMeetingTime(registerPostDto.getMeetingTime());
         post.setMarket(registerPostDto.getMarket());
         post.setUserId(user.getUserId());
+        post.setLocation(user.getLocation());
 
         postService.savePost(post);
 
@@ -172,5 +180,46 @@ public class PostController {
             }
         }
         return new ResponseEntity<>(detailPostDto, HttpStatus.OK);
+    }
+
+    /**
+     * 전체 게시글 조회 API
+     * */
+    @GetMapping("")
+    public ArrayList<AllPostResponseDto> getAllPosts(@RequestParam String category, Pageable pageable){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+
+        UserDetails loginUser = userService.loadUserByUsername(username);
+        User user = (User) loginUser;
+        ArrayList<AllPostResponseDto> allPostResponseDtoArrayList = new ArrayList<>();
+
+        Page<Post> posts;
+
+        if (category.equals("ALL")){
+            posts = postRepository.findAllByLocationAndStatusOrderByCreatedTimeDesc(user.getLocation(), 1, pageable);
+        }
+        else{
+            posts = postRepository.findAllByCategoryAndLocationAndStatusOrderByCreatedTimeDesc(category, user.getLocation(), 1, pageable);
+        }
+
+        List<Post> content = posts.getContent();
+        boolean isLast = posts.isLast();
+        AllPostResponseDto allPostResponseDto = new AllPostResponseDto();
+
+        for (Post post : content) {
+            allPostResponseDto.setPostId(post.getPostId());
+            allPostResponseDto.setRecruitNumber(post.getRecruitmentNumber());
+            allPostResponseDto.setNickname(user.getNickname());
+            allPostResponseDto.setCreatedAt(post.getCreatedTime());
+            allPostResponseDto.setTitle(post.getTitle());
+            allPostResponseDto.setMarket(post.getMarket());
+            allPostResponseDto.setMeetingTime(post.getMeetingTime());
+            allPostResponseDto.setLast(isLast);
+            allPostResponseDto.setCategory(post.getCategory());
+            allPostResponseDtoArrayList.add(allPostResponseDto);
+            allPostResponseDto = new AllPostResponseDto();
+        }
+        return allPostResponseDtoArrayList;
     }
 }
