@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 public class JwtTokenService {
 
     private String secretKey = "SOBUNSOBUNSECRETKEY";
-    private long tokenValidTime = 30 * 60 * 1000L;
+    private long tokenValidTime = 300 * 600 * 10000L;
     private final UserDetailsService userDetailsService;
 
     protected void init() {

@@ -1,6 +1,8 @@
 package numble.sobunsobun.post;
 
 import lombok.RequiredArgsConstructor;
+import numble.sobunsobun.apply.domain.Apply;
+import numble.sobunsobun.apply.service.ApplyService;
 import numble.sobunsobun.like.domain.Like;
 import numble.sobunsobun.like.service.LikeService;
 import numble.sobunsobun.post.domain.Post;
@@ -35,6 +37,7 @@ public class PostController {
     private final UserService userService;
     private final PostRepository postRepository;
     private final LikeService likeService;
+    private final ApplyService applyService;
 
 
     /**
@@ -125,10 +128,17 @@ public class PostController {
     }
 
     /**
-     * 게시글 조회 API
+     * 상세 게시글 조회 API
      * */
     @GetMapping("/{postId}")
     public ResponseEntity<DetailPostDto> viewDetail(@PathVariable Long postId){
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+
+        UserDetails loginUser = userService.loadUserByUsername(username);
+        User user = (User) loginUser;
+
         DetailPostDto detailPostDto = new DetailPostDto();
         Post post = postService.getPostEntity(postId);
 
@@ -143,6 +153,8 @@ public class PostController {
         detailPostDto.setCategory(post.getCategory());
         detailPostDto.setMeetingTime(post.getMeetingTime());
         detailPostDto.setMarket(post.getMarket());
+        detailPostDto.setLikeCount(post.getLikeCount());
+        detailPostDto.setNickname(user.getNickname());
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime time;
@@ -222,6 +234,7 @@ public class PostController {
             allPostResponseDto.setMeetingTime(post.getMeetingTime());
             allPostResponseDto.setLast(isLast);
             allPostResponseDto.setCategory(post.getCategory());
+            allPostResponseDto.setApplyNumber(post.getApplyNumber());
             allPostResponseDtoArrayList.add(allPostResponseDto);
             allPostResponseDto = new AllPostResponseDto();
         }
@@ -248,10 +261,37 @@ public class PostController {
         }
         else{
             likeService.deleteLikeEntity(likeEntity);
-            likeCount+=1;
+            likeCount-=1;
             postEntity.setLikeCount(likeCount);
             postService.savePost(postEntity);
             return new ResponseEntity<>("좋아요 취소", HttpStatus.OK);
+        }
+    }
+
+    /**
+     * 게시글 참여, 참여 취소
+     * */
+    @PostMapping("/{postId}/{userId}/apply")
+    public ResponseEntity<String> applyPost(@PathVariable Long postId, @PathVariable Long userId){
+        Apply applyEntity = applyService.getApplyEntity(postId, userId);
+        Post postEntity = postService.getPostEntity(postId);
+        Integer applyNumber = postEntity.getApplyNumber();
+        if(applyEntity == null){
+            Apply apply = new Apply();
+            apply.setPostId(postId);
+            apply.setUserId(userId);
+            applyNumber+=1;
+            postEntity.setApplyNumber(applyNumber);
+            applyService.saveApplyEntity(apply);
+            postService.savePost(postEntity);
+            return new ResponseEntity<>("참여 완료", HttpStatus.OK);
+        }
+        else{
+            applyService.deleteApplyEntity(applyEntity);
+            applyNumber-=1;
+            postEntity.setApplyNumber(applyNumber);
+            postService.savePost(postEntity);
+            return new ResponseEntity<>("참여 취소", HttpStatus.OK);
         }
     }
 }
