@@ -234,15 +234,23 @@ public class PostController {
     @PostMapping("/{postId}/{userId}/like")
     public ResponseEntity<String> likePost(@PathVariable Long postId, @PathVariable Long userId){
         Like likeEntity = likeService.getLikeEntity(postId, userId);
+        Post postEntity = postService.getPostEntity(postId);
+        Integer likeCount = postEntity.getLikeCount();
         if(likeEntity == null){
             Like like = new Like();
             like.setPostId(postId);
             like.setUserId(userId);
+            likeCount+=1;
+            postEntity.setLikeCount(likeCount);
             likeService.saveLikeEntity(like);
+            postService.savePost(postEntity);
             return new ResponseEntity<>("좋아요 완료", HttpStatus.OK);
         }
         else{
             likeService.deleteLikeEntity(likeEntity);
+            likeCount+=1;
+            postEntity.setLikeCount(likeCount);
+            postService.savePost(postEntity);
             return new ResponseEntity<>("좋아요 취소", HttpStatus.OK);
         }
     }
