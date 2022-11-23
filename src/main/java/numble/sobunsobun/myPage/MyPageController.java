@@ -1,6 +1,7 @@
 package numble.sobunsobun.myPage;
 
 import lombok.RequiredArgsConstructor;
+import numble.sobunsobun.myPage.dto.ModifyNicknameDto;
 import numble.sobunsobun.myPage.service.MyPageService;
 import numble.sobunsobun.user.domain.User;
 import numble.sobunsobun.user.service.UserService;
@@ -17,6 +18,26 @@ public class MyPageController {
     private final MyPageService myPageService;
     private final UserService userService;
 
+    /**
+     * 마이페이지 닉네임 변경
+     * */
+    @PostMapping("/modifyNickname")
+    public ResponseEntity<String> modifyNickname(ModifyNicknameDto modifyNicknameDto){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+
+        UserDetails loginUser = userService.loadUserByUsername(username);
+        User user = (User) loginUser;
+
+        user.setNickname(modifyNicknameDto.getNickname());
+        userService.joinUser(user);
+
+        return new ResponseEntity<>("닉네임 변경 완료", HttpStatus.OK);
+    }
+
+    /**
+     * 회원탈퇴
+     * */
     @DeleteMapping("")
     public ResponseEntity<String> deleteUserInfo(){
 
