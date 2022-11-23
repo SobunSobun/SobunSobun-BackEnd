@@ -113,6 +113,7 @@ public class PostController {
                 post.setCategory(modifyPostDto.getCategory());
                 post.setMeetingTime(modifyPostDto.getMeetingTime());
                 post.setMarket(modifyPostDto.getMarket());
+                post.setMarketAddress(modifyPostDto.getMarketAddress());
 
                 postService.savePost(post);
 
