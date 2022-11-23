@@ -125,10 +125,17 @@ public class PostController {
     }
 
     /**
-     * 게시글 조회 API
+     * 상세 게시글 조회 API
      * */
     @GetMapping("/{postId}")
     public ResponseEntity<DetailPostDto> viewDetail(@PathVariable Long postId){
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+
+        UserDetails loginUser = userService.loadUserByUsername(username);
+        User user = (User) loginUser;
+
         DetailPostDto detailPostDto = new DetailPostDto();
         Post post = postService.getPostEntity(postId);
 
@@ -143,6 +150,8 @@ public class PostController {
         detailPostDto.setCategory(post.getCategory());
         detailPostDto.setMeetingTime(post.getMeetingTime());
         detailPostDto.setMarket(post.getMarket());
+        detailPostDto.setLikeCount(post.getLikeCount());
+        detailPostDto.setNickname(user.getNickname());
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime time;
