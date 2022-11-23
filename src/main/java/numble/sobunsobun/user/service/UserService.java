@@ -32,6 +32,11 @@ public class UserService implements UserDetailsService {
         return user.orElse(null);
     }
 
+    public User getUserEntityById(Long userId){
+        Optional<User> user = userRepository.findByUserIdAndStatus(userId, 1);
+        return user.orElse(null);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByEmailAndStatus(username, 1);

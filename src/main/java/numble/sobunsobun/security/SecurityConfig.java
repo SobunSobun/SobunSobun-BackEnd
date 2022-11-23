@@ -34,7 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] AUTHENTICATED_URL_ARRAY={
             "/test", "/test/**",
             "/post", "/post/**",
-            "/myPage", "/myPage/**"
+            "/myPage", "/myPage/**",
+            "/parentComment", "/parentComment/**",
+            "/childComment", "/childComment/**"
     };
 
     @Bean
