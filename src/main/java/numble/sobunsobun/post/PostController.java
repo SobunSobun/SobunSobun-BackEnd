@@ -59,6 +59,7 @@ public class PostController {
         post.setMarket(registerPostDto.getMarket());
         post.setUserId(user.getUserId());
         post.setLocation(user.getLocation());
+        post.setMarketAddress(registerPostDto.getMarketAddress());
 
         postService.savePost(post);
 

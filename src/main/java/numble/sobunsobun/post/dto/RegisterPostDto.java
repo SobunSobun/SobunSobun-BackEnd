@@ -11,4 +11,5 @@ public class RegisterPostDto {
     private String category;
     private String meetingTime;
     private String market;
+    private String marketAddress;
 }
