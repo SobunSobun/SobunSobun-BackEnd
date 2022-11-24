@@ -199,6 +199,7 @@ public class PostController {
         }
         detailPostDto.setIsLike(likeService.getLikeEntity(postId, user.getUserId()) != null);
         detailPostDto.setIsApply(applyService.getApplyEntity(postId, user.getUserId()) != null);
+        detailPostDto.setIsWriter(Objects.equals(post.getUserId(), user.getUserId()));
         return new ResponseEntity<>(detailPostDto, HttpStatus.OK);
     }
 

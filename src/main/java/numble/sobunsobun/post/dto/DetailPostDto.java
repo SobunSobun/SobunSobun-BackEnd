@@ -17,4 +17,5 @@ public class DetailPostDto {
     private Integer likeCount;
     private Boolean isLike;
     private Boolean isApply;
+    private Boolean isWriter;
 }
