@@ -15,4 +15,6 @@ public class DetailPostDto {
     private String uploadTime;
     private String nickname;
     private Integer likeCount;
+    private Boolean isLike;
+    private Boolean isApply;
 }
