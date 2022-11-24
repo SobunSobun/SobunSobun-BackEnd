@@ -47,7 +47,7 @@ public class Post {
     private Integer likeCount = 0;
 
     @Column(name = "is_full")
-    private boolean isFull = false;
+    private Boolean isFull = false;
 
     @Column(name = "market")
     private String market;
