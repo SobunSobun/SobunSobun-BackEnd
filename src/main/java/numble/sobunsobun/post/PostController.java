@@ -27,6 +27,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/post")
@@ -280,11 +281,16 @@ public class PostController {
             Apply apply = new Apply();
             apply.setPostId(postId);
             apply.setUserId(userId);
-            applyNumber+=1;
-            postEntity.setApplyNumber(applyNumber);
-            applyService.saveApplyEntity(apply);
-            postService.savePost(postEntity);
-            return new ResponseEntity<>("참여 완료", HttpStatus.OK);
+            if(Objects.equals(postEntity.getRecruitmentNumber(), applyNumber)){
+                return new ResponseEntity<>("참여 불가(인원 초과)", HttpStatus.FORBIDDEN);
+            }
+            else{
+                applyNumber+=1;
+                postEntity.setApplyNumber(applyNumber);
+                applyService.saveApplyEntity(apply);
+                postService.savePost(postEntity);
+                return new ResponseEntity<>("참여 완료", HttpStatus.OK);
+            }
         }
         else{
             applyService.deleteApplyEntity(applyEntity);
