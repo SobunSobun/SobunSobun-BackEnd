@@ -29,35 +29,29 @@ public class MyPostsController {
      * 내가 작성한 게시글 조회 API - 진행중인 소분
      * */
     @GetMapping("/ongoing")
-    public ArrayList<MyPostDto> ongoingMyPosts(Pageable pageable){
+    public List<MyPostDto> ongoingMyPosts(){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
 
         UserDetails loginUser = userService.loadUserByUsername(username);
         User user = (User) loginUser;
 
-        ArrayList<MyPostDto> myPostDtoArrayList = new ArrayList<>();
+        List<MyPostDto> myPostDtoList = new ArrayList<>();
+        List<Post> posts = postRepository.findAllByUserIdAndStatusOrderByCreatedTimeDesc(user.getUserId(), 1);
 
-        Page<Post> posts = postRepository.findAllByUserIdAndStatusOrderByCreatedTimeDesc(user.getUserId(), 1, pageable);
-
-        List<Post> content = posts.getContent();
-        boolean isLast = posts.isLast();
-        MyPostDto myPostDto = new MyPostDto();
-
-        for (Post post : content) {
-            myPostDto.setPostId(post.getPostId());
+        for(int i=0; i<posts.size(); i++){
+            MyPostDto myPostDto = new MyPostDto();
+            myPostDto.setPostId(posts.get(i).getPostId());
             myPostDto.setNickname(user.getNickname());
-            myPostDto.setTitle(post.getTitle());
-            myPostDto.setRecruitNumber(post.getRecruitmentNumber());
-            myPostDto.setApplyNumber(post.getApplyNumber());
-            myPostDto.setMeetingTime(post.getMeetingTime());
-            myPostDto.setMarket(post.getMarket());
-            myPostDto.setCreatedAt(post.getCreatedTime());
-            myPostDto.setLast(isLast);
-            myPostDtoArrayList.add(myPostDto);
-            myPostDto = new MyPostDto();
+            myPostDto.setTitle(posts.get(i).getTitle());
+            myPostDto.setRecruitNumber(posts.get(i).getRecruitmentNumber());
+            myPostDto.setApplyNumber(posts.get(i).getApplyNumber());
+            myPostDto.setMeetingTime(posts.get(i).getMeetingTime());
+            myPostDto.setMarket(posts.get(i).getMarket());
+            myPostDto.setCreatedAt(posts.get(i).getCreatedTime());
+            myPostDtoList.add(myPostDto);
         }
-        return myPostDtoArrayList;
+        return myPostDtoList;
     }
 
     /**
