@@ -15,5 +15,4 @@ public class MyPostDto {
     private String meetingTime;
     private String market;
     private LocalDateTime createdAt;
-    private boolean isLast;
 }
