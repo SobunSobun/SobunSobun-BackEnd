@@ -39,16 +39,16 @@ public class MyPostsController {
         List<MyPostDto> myPostDtoList = new ArrayList<>();
         List<Post> posts = postRepository.findAllByUserIdAndStatusOrderByCreatedTimeDesc(user.getUserId(), 1);
 
-        for(int i=0; i<posts.size(); i++){
+        for (Post post : posts) {
             MyPostDto myPostDto = new MyPostDto();
-            myPostDto.setPostId(posts.get(i).getPostId());
+            myPostDto.setPostId(post.getPostId());
             myPostDto.setNickname(user.getNickname());
-            myPostDto.setTitle(posts.get(i).getTitle());
-            myPostDto.setRecruitNumber(posts.get(i).getRecruitmentNumber());
-            myPostDto.setApplyNumber(posts.get(i).getApplyNumber());
-            myPostDto.setMeetingTime(posts.get(i).getMeetingTime());
-            myPostDto.setMarket(posts.get(i).getMarket());
-            myPostDto.setCreatedAt(posts.get(i).getCreatedTime());
+            myPostDto.setTitle(post.getTitle());
+            myPostDto.setRecruitNumber(post.getRecruitmentNumber());
+            myPostDto.setApplyNumber(post.getApplyNumber());
+            myPostDto.setMeetingTime(post.getMeetingTime());
+            myPostDto.setMarket(post.getMarket());
+            myPostDto.setCreatedAt(post.getCreatedTime());
             myPostDtoList.add(myPostDto);
         }
         return myPostDtoList;
@@ -57,4 +57,29 @@ public class MyPostsController {
     /**
      * 내가 작성한 게시글 조회 API - 완료된 소분
      * */
+    @GetMapping("/finished")
+    public List<MyPostDto> finishedMyPosts(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+
+        UserDetails loginUser = userService.loadUserByUsername(username);
+        User user = (User) loginUser;
+
+        List<MyPostDto> myPostDtoList = new ArrayList<>();
+        List<Post> posts = postRepository.findAllByUserIdAndStatusOrderByCreatedTimeDesc(user.getUserId(), 0);
+
+        for (Post post : posts) {
+            MyPostDto myPostDto = new MyPostDto();
+            myPostDto.setPostId(post.getPostId());
+            myPostDto.setNickname(user.getNickname());
+            myPostDto.setTitle(post.getTitle());
+            myPostDto.setRecruitNumber(post.getRecruitmentNumber());
+            myPostDto.setApplyNumber(post.getApplyNumber());
+            myPostDto.setMeetingTime(post.getMeetingTime());
+            myPostDto.setMarket(post.getMarket());
+            myPostDto.setCreatedAt(post.getCreatedTime());
+            myPostDtoList.add(myPostDto);
+        }
+        return myPostDtoList;
+    }
 }
