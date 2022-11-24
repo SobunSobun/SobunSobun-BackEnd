@@ -218,10 +218,10 @@ public class PostController {
         Page<Post> posts;
 
         if (category.equals("ALL")){
-            posts = postRepository.findAllByLocationAndStatusOrderByCreatedTimeDesc(user.getLocation(), 1, pageable);
+            posts = postRepository.findAllByLocationAndStatusAndIsFullOrderByCreatedTimeDesc(user.getLocation(), 1, false, pageable);
         }
         else{
-            posts = postRepository.findAllByCategoryAndLocationAndStatusOrderByCreatedTimeDesc(category, user.getLocation(), 1, pageable);
+            posts = postRepository.findAllByCategoryAndLocationAndStatusAndIsFullOrderByCreatedTimeDesc(category, user.getLocation(), 1, false, pageable);
         }
 
         List<Post> content = posts.getContent();
@@ -303,5 +303,16 @@ public class PostController {
             postService.savePost(postEntity);
             return new ResponseEntity<>("참여 취소", HttpStatus.OK);
         }
+    }
+
+    /**
+     * 게시글 마감
+     * */
+    @PostMapping("/{postId}/close")
+    public ResponseEntity<String> closePost(@PathVariable Long postId){
+        Post postEntity = postService.getPostEntity(postId);
+        postEntity.setIsFull(true);
+        postService.savePost(postEntity);
+        return new ResponseEntity<>("마감 완료", HttpStatus.OK);
     }
 }

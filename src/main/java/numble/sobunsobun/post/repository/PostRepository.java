@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-    Page<Post> findAllByCategoryAndLocationAndStatusOrderByCreatedTimeDesc(String category, String location, Integer status, Pageable pageable);
-    Page<Post> findAllByLocationAndStatusOrderByCreatedTimeDesc(String location, Integer status, Pageable pageable);
+    Page<Post> findAllByCategoryAndLocationAndStatusAndIsFullOrderByCreatedTimeDesc(String category, String location, Integer status, Boolean isFull, Pageable pageable);
+    Page<Post> findAllByLocationAndStatusAndIsFullOrderByCreatedTimeDesc(String location, Integer status, Boolean isFull, Pageable pageable);
 }
