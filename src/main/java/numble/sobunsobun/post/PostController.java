@@ -226,9 +226,10 @@ public class PostController {
         AllPostResponseDto allPostResponseDto = new AllPostResponseDto();
 
         for (Post post : content) {
+            User postUser = userService.getUserEntityById(post.getUserId());
             allPostResponseDto.setPostId(post.getPostId());
             allPostResponseDto.setRecruitNumber(post.getRecruitmentNumber());
-            allPostResponseDto.setNickname(user.getNickname());
+            allPostResponseDto.setNickname(postUser.getNickname());
             allPostResponseDto.setCreatedAt(post.getCreatedTime());
             allPostResponseDto.setTitle(post.getTitle());
             allPostResponseDto.setMarket(post.getMarket());
