@@ -66,13 +66,14 @@ public class ParentCommentController {
 
         List<AllCommentsResponse> allCommentsResponses = new ArrayList<>();
         List<ParentComment> commentList = parentCommentRepository.findAllByPostIdOrderByCreatedTimeDesc(postId);
-        System.out.println(commentList);
 
         for (ParentComment parentComment : commentList) {
             User user = userService.getUserEntityById(parentComment.getUserId());
             AllCommentsResponse allCommentsResponse = new AllCommentsResponse();
+            allCommentsResponse.setParentCommentId(parentComment.getCommentId());
             allCommentsResponse.setNickname(user.getNickname());
             allCommentsResponse.setContent(parentComment.getContent());
+            allCommentsResponse.setProfileUrl(user.getProfileUrl());
             allCommentsResponse.setCreatedAt(parentComment.getCreatedTime());
             if (parentComment.getIsParent() == 0) {
                 allCommentsResponse.setChildComments(null);
@@ -82,8 +83,10 @@ public class ParentCommentController {
                 for (ChildComment childComment : childCommentList) {
                     User childUser = userService.getUserEntityById(childComment.getUserId());
                     NestedCommentsDto nestedCommentsDto = new NestedCommentsDto();
+                    nestedCommentsDto.setChildCommentId(childComment.getCommentId());
                     nestedCommentsDto.setNickname(childUser.getNickname());
                     nestedCommentsDto.setContent(childComment.getContent());
+                    nestedCommentsDto.setProfileUrl(childUser.getProfileUrl());
                     nestedCommentsDto.setCreatedAt(childComment.getCreatedTime());
                     nestedCommentsDtoList.add(nestedCommentsDto);
                 }
