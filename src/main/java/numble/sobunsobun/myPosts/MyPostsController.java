@@ -43,6 +43,9 @@ public class MyPostsController {
         List<Post> posts = postRepository.findAllByUserIdAndStatusOrderByCreatedTimeDesc(user.getUserId(), 1);
 
         for (Post post : posts) {
+            if(post.getIsFull()){
+                continue;
+            }
             MyPostDto myPostDto = new MyPostDto();
             myPostDto.setPostId(post.getPostId());
             myPostDto.setNickname(user.getNickname());
@@ -69,9 +72,12 @@ public class MyPostsController {
         User user = (User) loginUser;
 
         List<MyPostDto> myPostDtoList = new ArrayList<>();
-        List<Post> posts = postRepository.findAllByUserIdAndStatusOrderByCreatedTimeDesc(user.getUserId(), 0);
+        List<Post> posts = postRepository.findAllByUserIdAndStatusOrderByCreatedTimeDesc(user.getUserId(), 1);
 
         for (Post post : posts) {
+            if(!post.getIsFull()){
+                continue;
+            }
             MyPostDto myPostDto = new MyPostDto();
             myPostDto.setPostId(post.getPostId());
             myPostDto.setNickname(user.getNickname());
