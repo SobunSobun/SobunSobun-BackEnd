@@ -127,4 +127,40 @@ public class MyPostsController {
         }
         return myPostDtoList;
     }
+
+    /**
+     * 내가 참여한 게시글 조회 API - 진행중인 소분
+     */
+    @GetMapping("/finished/applied")
+    public List<MyPostDto> finishedAppliedMyPosts(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+
+        UserDetails loginUser = userService.loadUserByUsername(username);
+        User user = (User) loginUser;
+
+        List<MyPostDto> myPostDtoList = new ArrayList<>();
+        List<Apply> applies = applyRepository.findByUserIdOrderByApplyId(user.getUserId());
+
+        for(Apply apply : applies){
+            Post postEntity = postService.getPostEntity(apply.getPostId());
+            User userEntityById = userService.getUserEntityById(user.getUserId());
+
+            if(postEntity.getStatus() == 0 || !postEntity.getIsFull()){
+                continue;
+            }
+
+            MyPostDto myPostDto = new MyPostDto();
+            myPostDto.setPostId(postEntity.getPostId());
+            myPostDto.setNickname(userEntityById.getNickname());
+            myPostDto.setTitle(postEntity.getTitle());
+            myPostDto.setRecruitNumber(postEntity.getRecruitmentNumber());
+            myPostDto.setApplyNumber(postEntity.getApplyNumber());
+            myPostDto.setMeetingTime(postEntity.getMeetingTime());
+            myPostDto.setMarket(postEntity.getMarket());
+            myPostDto.setCreatedAt(postEntity.getCreatedTime());
+            myPostDtoList.add(myPostDto);
+        }
+        return myPostDtoList;
+    }
 }
