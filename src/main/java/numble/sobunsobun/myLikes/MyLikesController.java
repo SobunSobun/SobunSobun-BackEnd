@@ -53,6 +53,7 @@ public class MyLikesController {
             myLikesPostDto.setTitle(postEntity.getTitle());
             myLikesPostDto.setRecruitNumber(postEntity.getRecruitmentNumber());
             myLikesPostDto.setApplyNumber(postEntity.getApplyNumber());
+            myLikesPostDto.setCategory(postEntity.getCategory());
             myLikesPostDto.setMeetingTime(postEntity.getMeetingTime());
             myLikesPostDto.setMarket(postEntity.getMarket());
             myLikesPostDto.setCreatedAt(postEntity.getCreatedTime());
