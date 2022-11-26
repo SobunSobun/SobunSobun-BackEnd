@@ -129,7 +129,7 @@ public class MyPostsController {
     }
 
     /**
-     * 내가 참여한 게시글 조회 API - 진행중인 소분
+     * 내가 참여한 게시글 조회 API - 완료된 소분
      */
     @GetMapping("/finished/applied")
     public List<MyPostDto> finishedAppliedMyPosts(){
