@@ -38,7 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/parentComment", "/parentComment/**",
             "/childComment", "/childComment/**",
             "/myPosts", "/myPosts/**",
-            "/myInfo", "/myInfo/**"
+            "/myInfo", "/myInfo/**",
+            "/myLikes", "/myLikes/**"
     };
 
     @Bean
