@@ -1,6 +1,7 @@
 package numble.sobunsobun.security;
 
 import lombok.RequiredArgsConstructor;
+import numble.sobunsobun.blackList.service.BlackListService;
 import numble.sobunsobun.utils.JwtAuthenticationFilter;
 import numble.sobunsobun.utils.JwtTokenService;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenService jwtTokenService;
+    private final BlackListService blackListService;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
@@ -59,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(PERMIT_URL_ARRAY).permitAll()
                 .anyRequest().denyAll()
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenService),
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenService, blackListService),
                         UsernamePasswordAuthenticationFilter.class); // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣음
         // + 토큰에 저장된 유저정보를 활용하여야 하기 때문에 CustomUserDetailService 클래스를 생성
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

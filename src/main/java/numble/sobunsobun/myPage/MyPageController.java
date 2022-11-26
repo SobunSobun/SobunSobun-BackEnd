@@ -1,17 +1,22 @@
 package numble.sobunsobun.myPage;
 
 import lombok.RequiredArgsConstructor;
+import numble.sobunsobun.blackList.domain.BlackList;
+import numble.sobunsobun.blackList.repository.BlackListRepository;
 import numble.sobunsobun.myPage.dto.ModifyNicknameDto;
 import numble.sobunsobun.myPage.service.MyPageService;
 import numble.sobunsobun.s3Image.AwsS3Service;
 import numble.sobunsobun.user.domain.User;
 import numble.sobunsobun.user.service.UserService;
+import numble.sobunsobun.utils.JwtTokenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/myPage/{userId}")
@@ -21,6 +26,8 @@ public class MyPageController {
     private final MyPageService myPageService;
     private final UserService userService;
     private final AwsS3Service awsS3Service;
+    private final JwtTokenService jwtTokenService;
+    private final BlackListRepository blackListRepository;
 
     /**
      * 마이페이지 닉네임 변경
@@ -70,5 +77,14 @@ public class MyPageController {
         else{
             return new ResponseEntity<>("파일 오류", HttpStatus.FORBIDDEN);
         }
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request){
+        String jwtToken = jwtTokenService.resolveToken(request);
+        BlackList blackList = new BlackList();
+        blackList.setToken(jwtToken);
+        blackListRepository.save(blackList);
+        return new ResponseEntity<>("로그아웃 되었습니다.", HttpStatus.OK);
     }
 }
