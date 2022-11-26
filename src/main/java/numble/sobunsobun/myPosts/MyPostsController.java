@@ -52,6 +52,7 @@ public class MyPostsController {
             myPostDto.setTitle(post.getTitle());
             myPostDto.setRecruitNumber(post.getRecruitmentNumber());
             myPostDto.setApplyNumber(post.getApplyNumber());
+            myPostDto.setCategory(post.getCategory());
             myPostDto.setMeetingTime(post.getMeetingTime());
             myPostDto.setMarket(post.getMarket());
             myPostDto.setCreatedAt(post.getCreatedTime());
@@ -84,6 +85,7 @@ public class MyPostsController {
             myPostDto.setTitle(post.getTitle());
             myPostDto.setRecruitNumber(post.getRecruitmentNumber());
             myPostDto.setApplyNumber(post.getApplyNumber());
+            myPostDto.setCategory(post.getCategory());
             myPostDto.setMeetingTime(post.getMeetingTime());
             myPostDto.setMarket(post.getMarket());
             myPostDto.setCreatedAt(post.getCreatedTime());
@@ -120,6 +122,7 @@ public class MyPostsController {
             myPostDto.setTitle(postEntity.getTitle());
             myPostDto.setRecruitNumber(postEntity.getRecruitmentNumber());
             myPostDto.setApplyNumber(postEntity.getApplyNumber());
+            myPostDto.setCategory(postEntity.getCategory());
             myPostDto.setMeetingTime(postEntity.getMeetingTime());
             myPostDto.setMarket(postEntity.getMarket());
             myPostDto.setCreatedAt(postEntity.getCreatedTime());
@@ -156,6 +159,7 @@ public class MyPostsController {
             myPostDto.setTitle(postEntity.getTitle());
             myPostDto.setRecruitNumber(postEntity.getRecruitmentNumber());
             myPostDto.setApplyNumber(postEntity.getApplyNumber());
+            myPostDto.setCategory(postEntity.getCategory());
             myPostDto.setMeetingTime(postEntity.getMeetingTime());
             myPostDto.setMarket(postEntity.getMarket());
             myPostDto.setCreatedAt(postEntity.getCreatedTime());

@@ -13,6 +13,7 @@ public class MyLikesPostDto {
     private String title;
     private Integer recruitNumber;
     private Integer applyNumber;
+    private String category;
     private String meetingTime;
     private String market;
     private LocalDateTime createdAt;
