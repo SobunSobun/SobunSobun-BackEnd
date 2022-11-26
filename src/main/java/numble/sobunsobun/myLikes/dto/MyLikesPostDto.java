@@ -1,4 +1,4 @@
-package numble.sobunsobun.myLikes;
+package numble.sobunsobun.myLikes.dto;
 
 import lombok.Getter;
 import lombok.Setter;

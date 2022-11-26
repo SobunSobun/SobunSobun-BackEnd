@@ -3,6 +3,7 @@ package numble.sobunsobun.myLikes;
 import lombok.RequiredArgsConstructor;
 import numble.sobunsobun.like.domain.Like;
 import numble.sobunsobun.like.repository.LikeRepository;
+import numble.sobunsobun.myLikes.dto.MyLikesPostDto;
 import numble.sobunsobun.post.domain.Post;
 import numble.sobunsobun.post.service.PostService;
 import numble.sobunsobun.user.domain.User;
