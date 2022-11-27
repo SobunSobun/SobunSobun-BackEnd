@@ -65,7 +65,7 @@ public class ParentCommentController {
     public ResponseEntity<List<AllCommentsResponse>> getAllComments(@PathVariable Long postId){
 
         List<AllCommentsResponse> allCommentsResponses = new ArrayList<>();
-        List<ParentComment> commentList = parentCommentRepository.findAllByPostIdOrderByCreatedTimeDesc(postId);
+        List<ParentComment> commentList = parentCommentRepository.findAllByPostIdOrderByCreatedTime(postId);
 
         for (ParentComment parentComment : commentList) {
             User user = userService.getUserEntityById(parentComment.getUserId());
@@ -79,7 +79,7 @@ public class ParentCommentController {
                 allCommentsResponse.setChildComments(null);
             } else {
                 List<NestedCommentsDto> nestedCommentsDtoList = new ArrayList<>();
-                List<ChildComment> childCommentList = childCommentRepository.findAllByParentCommentIdOrderByCreatedTimeDesc(parentComment.getCommentId());
+                List<ChildComment> childCommentList = childCommentRepository.findAllByParentCommentIdOrderByCreatedTime(parentComment.getCommentId());
                 for (ChildComment childComment : childCommentList) {
                     User childUser = userService.getUserEntityById(childComment.getUserId());
                     NestedCommentsDto nestedCommentsDto = new NestedCommentsDto();
