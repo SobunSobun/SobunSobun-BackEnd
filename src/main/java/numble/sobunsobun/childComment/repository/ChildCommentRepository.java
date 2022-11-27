@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ChildCommentRepository extends JpaRepository<ChildComment, Long> {
-    List<ChildComment> findAllByParentCommentIdOrderByCreatedTimeDesc(Long parentCommentId);
+    List<ChildComment> findAllByParentCommentIdOrderByCreatedTime(Long parentCommentId);
 }
