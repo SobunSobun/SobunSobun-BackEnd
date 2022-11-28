@@ -12,6 +12,7 @@ public class DetailPostDto {
     private String category;
     private String meetingTime;
     private String market;
+    private String marketAddress;
     private String uploadTime;
     private String nickname;
     private Integer likeCount;
