@@ -158,6 +158,7 @@ public class PostController {
         detailPostDto.setMarketAddress(post.getMarketAddress());
         detailPostDto.setLikeCount(post.getLikeCount());
         detailPostDto.setNickname(userEntity.getNickname());
+        detailPostDto.setProfileUrl(userEntity.getProfileUrl());
 
 
         LocalDateTime now = LocalDateTime.now();
