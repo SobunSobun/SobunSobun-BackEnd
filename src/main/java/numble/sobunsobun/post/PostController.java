@@ -154,8 +154,10 @@ public class PostController {
         detailPostDto.setCategory(post.getCategory());
         detailPostDto.setMeetingTime(post.getMeetingTime());
         detailPostDto.setMarket(post.getMarket());
+        detailPostDto.setMarketAddress(post.getMarketAddress());
         detailPostDto.setLikeCount(post.getLikeCount());
         detailPostDto.setNickname(user.getNickname());
+
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime time;
