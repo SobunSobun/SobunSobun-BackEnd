@@ -142,6 +142,7 @@ public class PostController {
 
         DetailPostDto detailPostDto = new DetailPostDto();
         Post post = postService.getPostEntity(postId);
+        User userEntity = userService.getUserEntityById(post.getUserId());
 
         if(post == null || post.getStatus() == 0){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -156,7 +157,7 @@ public class PostController {
         detailPostDto.setMarket(post.getMarket());
         detailPostDto.setMarketAddress(post.getMarketAddress());
         detailPostDto.setLikeCount(post.getLikeCount());
-        detailPostDto.setNickname(user.getNickname());
+        detailPostDto.setNickname(userEntity.getNickname());
 
 
         LocalDateTime now = LocalDateTime.now();
