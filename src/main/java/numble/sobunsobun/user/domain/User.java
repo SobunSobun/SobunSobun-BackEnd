@@ -31,7 +31,7 @@ public class User implements UserDetails {
     private String location;
 
     @Column(name = "profile_url")
-    private String profileUrl = "1";
+    private String profileUrl;
 
     @Column(name = "status")
     private Integer status = 1;
