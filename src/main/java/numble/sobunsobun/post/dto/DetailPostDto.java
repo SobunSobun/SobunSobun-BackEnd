@@ -15,6 +15,7 @@ public class DetailPostDto {
     private String marketAddress;
     private String uploadTime;
     private String nickname;
+    private String profileUrl;
     private Integer likeCount;
     private Boolean isLike;
     private Boolean isApply;
