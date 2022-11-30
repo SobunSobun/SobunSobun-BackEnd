@@ -10,4 +10,6 @@ public class MyInfoDto {
     private String email;
     private String location;
     private String profileUrl;
+    private String lat;
+    private String lon;
 }

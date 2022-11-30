@@ -38,6 +38,8 @@ public class MyInfoController {
         myInfoDto.setNickname(user.getNickname());
         myInfoDto.setLocation(user.getLocation());
         myInfoDto.setProfileUrl(user.getProfileUrl());
+        myInfoDto.setLat(user.getLat());
+        myInfoDto.setLon(user.getLon());
 
         return new ResponseEntity<>(myInfoDto, HttpStatus.OK);
     }
