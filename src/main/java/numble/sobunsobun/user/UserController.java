@@ -41,7 +41,7 @@ public class UserController {
         user.setLocation(joinDto.getLocation());
         user.setLat(joinDto.getLat());
         user.setLon(joinDto.getLon());
-        user.setProfileUrl("https://sobunsobun-bucket.s3.ap-northeast-2.amazonaws.com/KakaoTalk_Photo_2022-11-28-16-25-38_1669620538643.png");
+        user.setProfileUrl("https://sobunsobun-bucket.s3.ap-northeast-2.amazonaws.com/KakaoTalk_20221130_161355682_1669806282549.png");
 
         userService.joinUser(user);
         return new ResponseEntity<>("회원가입 완료", HttpStatus.OK);
