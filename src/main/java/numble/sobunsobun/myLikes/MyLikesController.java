@@ -41,9 +41,10 @@ public class MyLikesController {
         List<MyLikesPostDto> myLikesPostDtoList = new ArrayList<>();
         List<Like> likes = likeRepository.findByUserIdOrderByLikeIdDesc(user.getUserId());
 
+
         for(Like like : likes){
             Post postEntity = postService.getPostEntity(like.getPostId());
-            User userEntityById = userService.getUserEntityById(user.getUserId());
+            User userEntityById = userService.getUserEntityById(postEntity.getUserId());
             if(postEntity.getStatus() == 0){
                 continue;
             }
