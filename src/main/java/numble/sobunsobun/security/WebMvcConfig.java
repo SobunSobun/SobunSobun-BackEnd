@@ -27,30 +27,30 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .maxAge(3000);
     }
 
-    @Bean
-    public ServletWebServerFactory servletContainer() {
-        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
-            @Override
-            protected void postProcessContext(Context context) {
-                SecurityConstraint securityConstraint = new SecurityConstraint();
-                securityConstraint.setUserConstraint("CONFIDENTIAL");
-                SecurityCollection collection = new SecurityCollection();
-                collection.addPattern("/*");
-                securityConstraint.addCollection(collection);
-                context.addConstraint(securityConstraint);
-            }
-        };
+//     @Bean
+//     public ServletWebServerFactory servletContainer() {
+//         TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
+//             @Override
+//             protected void postProcessContext(Context context) {
+//                 SecurityConstraint securityConstraint = new SecurityConstraint();
+//                 securityConstraint.setUserConstraint("CONFIDENTIAL");
+//                 SecurityCollection collection = new SecurityCollection();
+//                 collection.addPattern("/*");
+//                 securityConstraint.addCollection(collection);
+//                 context.addConstraint(securityConstraint);
+//             }
+//         };
 
-        tomcat.addAdditionalTomcatConnectors(createSslConnector());
-        return tomcat;
-    }
+//         tomcat.addAdditionalTomcatConnectors(createSslConnector());
+//         return tomcat;
+//     }
 
-    private Connector createSslConnector() {
-        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
-        connector.setPort(8080);
-        connector.setScheme("http");
-        connector.setSecure(false);
-        connector.setRedirectPort(8443);
-        return connector;
-    }
+//     private Connector createSslConnector() {
+//         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+//         connector.setPort(8080);
+//         connector.setScheme("http");
+//         connector.setSecure(false);
+//         connector.setRedirectPort(8443);
+//         return connector;
+//     }
 }
